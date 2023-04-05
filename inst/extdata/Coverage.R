@@ -122,7 +122,7 @@ getCoverageBams <- function(bamFiles, indexFiles, outdir, interval.file,
             basename(bam.file)))
         futile.logger::flog.info("Processing %s...", output.file)
         if (!is.null(index.file)) {
-            index.file <- normalizePath(index.file, mustWork=TRUE)
+            #index.file <- normalizePath(index.file, mustWork=TRUE)
             index.file <- sub(".bai$", "", index.file)
         } else if (file.exists(sub("bam$", "bai", bam.file))) {
             index.file <- sub(".bam$", "", bam.file)
