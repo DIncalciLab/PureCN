@@ -71,6 +71,9 @@ option_list <- list(
     make_option(c("--min-fraction-offtarget"), action = "store", type = "double",
         default = formals(PureCN::filterIntervals)$min.fraction.offtarget,
         help = "Interval Filter: Ignore off-target internals when only the specified fraction of all intervals are off-target intervals  [default %default]"),
+    make_option(c("--num-eigen-vectors"), action = "store", type = "integer",
+        default = formals(PureCN::calculateTangentNormal)$num.eigen,
+        help = "Coverage Normalization: Number of eigen vectors when --normaldb is provided [default %default]"),
     make_option(c("--fun-segmentation"), action = "store", type = "character", default = "CBS",
         help = "Segmentation: Algorithm. CBS, PSCBS, GATK4, Hclust, or none [default %default]"),
     make_option(c("--alpha"), action = "store", type = "double",
@@ -283,7 +286,7 @@ if (file.exists(file.rds) && !opt$force) {
         if (!is.null(normalDB)) {
             if (is.null(normal.coverage.file)) {
                 normal.coverage.file <- calculateTangentNormal(tumor.coverage.file,
-                    normalDB)
+                    normalDB, num.eigen = opt[["num_eigen_vectors"]])
             }
         } else if (is.null(normal.coverage.file) && is.null(seg.file) &&
                    is.null(log.ratio)) {

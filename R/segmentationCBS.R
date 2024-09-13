@@ -436,6 +436,7 @@ plot.cnv = TRUE, max.segments = NULL, min.logr.sdev = 0.15, chr.hash = chr.hash)
 }
 
 .getAverageWeightPV <- function(seg, weights, perm = 2000) {
+    perm <- min(length(weights), perm)
     num_marks <- sort(unique(seg$num.mark))
     .do_permutation <- function(i, l) {
         if (l > 25) return(0)

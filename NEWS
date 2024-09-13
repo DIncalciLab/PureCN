@@ -1,5 +1,24 @@
+Changes in version 2.12.0
+-------------------------
+
+NEW FEATURES
+
+    o Added --num-eigen-vectors to PureCN.R to set the number of eigen vectors.
+      Tuning parameter for coverage normalization. Default should in most cases
+      be a good compromise between removing most normal noise and not
+      overfitting to pool of normal samples.
+   o Added findHighQualitySNPs function to extract good SNPs from mapping bias 
+     database. 
+
+
 Changes in version 2.10.0
 -------------------------
+
+NEW FEATURES
+    o adjustLogRatio function for adjusting a tumor vs normal coverage
+      ratio for purity and ploidy. Useful for downstream tools that
+      expect ratios instead of absolute copy numbers such as GISTIC.
+      Thanks @tedtoal (#40).
 
 SIGNIFICANT USER-VISIBLE CHANGES
 
@@ -11,6 +30,9 @@ BUGFIXES
 
     o Bugfix #296 was not merged into the developer branch and did not make 
       it into 2.8.0.
+    o Log ratios not shiften to median of sample medians as intended (#356).
+      Thanks @sleyn.  
+    o Fixed crash with small toy examples (fewer than 2000 baits, #363)  
 
 
 Changes in version 2.8.0
