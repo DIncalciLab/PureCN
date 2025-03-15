@@ -190,6 +190,7 @@ if (!is.null(bam.file)) {
         }
     } else {
         bamFiles <- bam.file
+        indexFiles <- index.file
     }
     if (length(bamFiles) != length(indexFiles) && !is.null(indexFiles)) {
         stop("List of BAM files and BAI files of different length.")
