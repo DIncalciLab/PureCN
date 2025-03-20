@@ -3,6 +3,8 @@ Changes in version 2.14.0
 
 BUGFIXES
     o Fixed large runtime of readAllelicCounts. Thanks luyh-xp (#378).
+    o --bai was ignored in Coverage.R except for lists (#272). Thanks 
+      @nspies-carisls and @lbeltrame. 
 
 
 Changes in version 2.12.0
