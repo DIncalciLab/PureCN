@@ -197,6 +197,25 @@ normalDB.min.coverage, normalDB.max.missing) {
     intervalsUsed
 }
 
+.filterIntervalsAllosome <- function(intervalsUsed, tumor, sex) {
+    if (is.null(sex)) return(intervalsUsed)
+    sex.chr <- .getSexChr(seqlevels(tumor))
+    remove.chrs <- c()
+    if (sex == "M" || sex == "?") {
+        remove.chrs <- sex.chr
+    } else if (sex == "F") {
+        remove.chrs <- sex.chr[2]
+    }
+    nBefore <- sum(intervalsUsed)
+    intervalsUsed <- intervalsUsed & !seqnames(tumor) %in% remove.chrs
+    nAfter <- sum(intervalsUsed)
+    if (nAfter < nBefore) {
+        flog.info("Removing %i non-diploid allosome intervals.", nBefore - nAfter)
+    }
+    intervalsUsed
+}
+
+
 .filterIntervalsTotalNormalCoverage <- function(intervalsUsed, normal,
     min.targeted.base, min.coverage) {
     if (is.null(min.targeted.base) || is.null(min.coverage)) {
