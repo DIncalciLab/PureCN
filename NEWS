@@ -1,3 +1,10 @@
+Changes in version 2.14.0
+-------------------------
+
+BUGFIXES
+    o Fixed large runtime of readAllelicCounts. Thanks luyh-xp (#378).
+
+
 Changes in version 2.12.0
 -------------------------
 

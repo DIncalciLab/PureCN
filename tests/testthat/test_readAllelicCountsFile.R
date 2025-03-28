@@ -2,6 +2,7 @@ context("readAllelicCountsFile")
 
 vcf.file <- system.file("extdata", "example.vcf.gz", package = "PureCN")
 ac.file <- system.file("extdata", "example_allelic_counts.tsv", package = "PureCN")
+ac.empty.file <- system.file("extdata", "example_allelic_counts_empty.tsv", package = "PureCN")
 vcf <- readVcf(vcf.file, "hg19")
 data(purecn.example.output)
 normal.coverage.file <- system.file('extdata', 'example_normal.txt.gz', 
@@ -12,6 +13,7 @@ tumor.coverage.file <- system.file('extdata', 'example_tumor.txt.gz',
 test_that("example parses correctly", {
     vcf_ac <- readAllelicCountsFile(ac.file)
     expect_equal(as.character(ref(vcf_ac)), as.character(ref(head(vcf,20))))
+    expect_error(readAllelicCountsFile(ac.empty.file), "Error reading AllelicCountsFile")
 })
 
 test_that("parsing -> writing -> parsing works", {
@@ -29,4 +31,3 @@ test_that("parsing -> writing -> parsing works", {
     expect_true(length(ret$results) > 0)
     file.remove(output.file)
 })
-

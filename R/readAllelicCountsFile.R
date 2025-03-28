@@ -68,7 +68,10 @@ readAllelicCountsFile <- function(file, format, zero=NULL) {
     if (!is.null(zero)) flog.warn("zero ignored for GATK4 files.")
     con <- file(file, open = "r")
     header <- .parseGATKHeader(con)
-    inputCounts <- read.delim(con, header = FALSE, stringsAsFactors = FALSE)
+    inputCounts <- try(read.delim(con, header = FALSE, stringsAsFactors = FALSE))
+    if (is(inputCounts, "try-error")) {
+        .stopUserError("Error reading AllelicCountsFile ", file)
+    }
     colnames(inputCounts) <- strsplit(header$last_line, "\t")[[1]]
     close(con)
     gr <- GRanges(seqnames = inputCounts$CONTIG, IRanges(start = inputCounts$POSITION, end = inputCounts$POSITION))
@@ -76,7 +79,9 @@ readAllelicCountsFile <- function(file, format, zero=NULL) {
                 colData = DataFrame(Samples = 1, row.names = header$sid),
                 exptData = list(header = VCFHeader(samples = header$sid)))
     ref(vcf) <- DNAStringSet(inputCounts$REF_NUCLEOTIDE)
-    alt(vcf) <- DNAStringSetList(lapply(inputCounts$ALT_NUCLEOTIDE, DNAStringSet))
+    #alt(vcf) <- DNAStringSetList(split(inputCounts$ALT_NUCLEOTIDE, seq(length(vcf))))
+    alt(vcf) <- DNAStringSetList(as.list(inputCounts$ALT_NUCLEOTIDE))
+
     info(header(vcf)) <- DataFrame(
         Number = "0",
         Type = "Flag",
