@@ -1,9 +1,9 @@
 Changes in version 2.14.0
 -------------------------
 
-NEW FEATURES
+SIGNIFICANT USER-VISIBLE CHANGES
 
-    o Do not filter allosome coverage for male samples.
+    o Do not filter allosome coverage for male samples. 
     
 BUGFIXES
 
@@ -29,6 +29,7 @@ Changes in version 2.10.0
 -------------------------
 
 NEW FEATURES
+
     o adjustLogRatio function for adjusting a tumor vs normal coverage
       ratio for purity and ploidy. Useful for downstream tools that
       expect ratios instead of absolute copy numbers such as GISTIC.
