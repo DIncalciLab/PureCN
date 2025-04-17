@@ -275,7 +275,7 @@ normalDB.min.coverage, normalDB.max.missing) {
 
 
 .filterIntervalsLowHighGC <- function(intervalsUsed, tumor, filter.lowhigh.gc) {
-    qq <- quantile(tumor$gc_bias, p = c(filter.lowhigh.gc,
+    qq <- quantile(tumor$gc_bias, probs = c(filter.lowhigh.gc,
         1 - filter.lowhigh.gc), na.rm = TRUE)
 
     nBefore <- sum(intervalsUsed)

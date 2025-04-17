@@ -303,7 +303,7 @@ segmentationCBS <- function(normal, tumor, log.ratio, seg, plot.cnv,
     }
     # a crude way of estimating purity - in heigher purity samples, we
     # can undo a little bit more aggressively
-    q <- quantile(log.ratio, p = c(d, 1 - d))
+    q <- quantile(log.ratio, probs = c(d, 1 - d))
     q.diff <- abs(q[1] - q[2])
     if (q.diff < 0.5) return(0.5 * sd.min.ratio)
     if (q.diff < 1) return(0.75 * sd.min.ratio)
@@ -315,7 +315,7 @@ segmentationCBS <- function(normal, tumor, log.ratio, seg, plot.cnv,
     seg <- seg[seg$num.mark >= 1, ]
     log.ratio <- unlist(lapply(seq_len(nrow(seg)), function(i)
         rep(seg$seg.mean[i], seg$num.mark[i])))
-    q <- quantile(log.ratio, p = c(d, 1 - d))
+    q <- quantile(log.ratio, probs = c(d, 1 - d))
     q.diff <- abs(q[1] - q[2])
     if (q.diff < 0.5) return(0.1)
     if (q.diff < 1) return(0.15)

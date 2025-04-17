@@ -199,7 +199,7 @@ ss) {
     containsOfftarget <- sum(on.target)!=length(on.target)
     if (!containsOfftarget) return(NULL)
     myylim <- quantile(subset(log.ratio,
-        !is.infinite(log.ratio)), p=c(0.0001, 1-0.0001),na.rm=TRUE)
+        !is.infinite(log.ratio)), probs = c(0.0001, 1 - 0.0001), na.rm = TRUE)
     plot(log.ratio, col=ifelse(on.target, "black", "red"),
         pch=".",cex=3, ylim=myylim, ylab="log2 ratio")
     legend("bottomleft", legend=c("On-Target", "Off-Target"), ncol=2, fill=c("black", "red"))
@@ -240,7 +240,7 @@ ss) {
     minLogRatio <- max(min(seg$seg.mean), peak.ideal.means[1]*2)
     logRatio <- do.call(c, lapply(seq_len(nrow(seg)), function(i)
                         rep(seg$seg.mean[i], seg$num.mark[i])))
-    minLogRatio <- min(minLogRatio, quantile(logRatio, p=0.01))
+    minLogRatio <- min(minLogRatio, quantile(logRatio, probs = 0.01))
     logRatio <- logRatio[logRatio >= minLogRatio]
 
     # estimate genome fractions
@@ -377,10 +377,10 @@ ss) {
             ylim = c(
                    min(
                         log2(.calcExpectedRatio(-0.1, purity, ploidy)),
-                        quantile(logRatio$log.ratio, p = 0.0001)),
+                        quantile(logRatio$log.ratio, probs = 0.0001)),
                    max(
                         max(segment.log.ratio*1.1),
-                        quantile(logRatio$log.ratio, p = 1 - 0.0001))
+                        quantile(logRatio$log.ratio, probs = 1 - 0.0001))
                    ),
             ...)
         points(x, r$log.ratio[idx], col=col.snps, pch=mypch)
@@ -418,7 +418,7 @@ ss) {
             round(res$results[[id]]$log.likelihood, digits = 2))
 
         myylim <- quantile(subset(r$log.ratio,
-            !is.infinite(r$log.ratio)), p=c(0.001, 1-0.001), na.rm=TRUE)
+            !is.infinite(r$log.ratio)), probs = c(0.001, 1 - 0.001), na.rm = TRUE)
         myylim[1] <- floor(myylim[1])
         myylim[2] <- ceiling(myylim[2])
 
@@ -491,7 +491,7 @@ ss) {
 
     seg <- res$results[[id]]$seg
     mylogratio.xlim <- quantile(subset(r$log.ratio,
-            !is.infinite(r$log.ratio)), p = c(0.001, 1 - 0.001), na.rm = TRUE)
+            !is.infinite(r$log.ratio)), probs = c(0.001, 1 - 0.001), na.rm = TRUE)
 
     peak.ideal.means <- .calcIdealPeaks(seg, purity, ploidy)
     scatter.labels <- paste0(r$ML.C, "m", r$ML.M)[!r$ML.SOMATIC]
@@ -608,7 +608,7 @@ ss) {
     xc <- .matrixTotalPloidyToTumorPloidy(res$candidates$all)
     xc[is.infinite(xc)] <- min(xc[!is.infinite(xc)], na.rm = TRUE)
     xc[is.na(xc)] <- min(xc[!is.infinite(xc)], na.rm = TRUE)
-    xc[xc < quantile(xc, p = 0.2)] <- quantile(xc, p = 0.2)
+    xc[xc < quantile(xc, p = 0.2)] <- quantile(xc, probs = 0.2)
 
     mycol.image <- colorRampPalette(rev(brewer.pal(n = 7,
         name = "RdYlBu")))(100)
@@ -616,7 +616,7 @@ ss) {
         t(xc) - max(xc), col = mycol.image, xlab = "Purity",
         ylab = "Ploidy",main = main,...)
     .legend.col(col = mycol.image, lev = min(xc):max(xc),
-        ylim = quantile(as.numeric(rownames(xc)), p = c(0,1)))
+        ylim = quantile(as.numeric(rownames(xc)), probs = c(0,1)))
 
     if (show.contour) contour(as.numeric(colnames(xc)),
         as.numeric(rownames(xc)), t(xc), add = TRUE)

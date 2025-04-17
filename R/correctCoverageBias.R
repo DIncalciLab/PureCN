@@ -123,11 +123,11 @@ output.qc.file = NULL) {
                     as.data.frame(normalized)[, ids])
 
     tumCov <- tumCov[which(tumCov$average.coverage <
-        quantile(tumCov$average.coverage, 0.999, na.rm = TRUE)), ]
+        quantile(tumCov$average.coverage, probs = 0.999, na.rm = TRUE)), ]
 
     if (sum(!tumCov$on.target)) {
         tumCov <- tumCov[which(tumCov$on.target | tumCov$average.coverage <
-            quantile(tumCov$average.coverage[!tumCov$on.target], 0.99, na.rm = TRUE)), ]
+            quantile(tumCov$average.coverage[!tumCov$on.target], probs = 0.99, na.rm = TRUE)), ]
     }
     tumCov$on.target <- factor(ifelse(tumCov$on.target, "on-target", "off-target"),
         levels = c("on-target", "off-target"))
@@ -227,10 +227,10 @@ output.qc.file = NULL) {
         if (!any(tumor$valid)) next
         tumor$ideal <- TRUE
         routlier <- 0.01
-        range <- quantile(tumor$average.coverage[tumor$valid], prob =
+        range <- quantile(tumor$average.coverage[tumor$valid], probs =
             c(0, 1 - routlier), na.rm = TRUE)
         doutlier <- 0.001
-        domain <- quantile(tumor$gc_bias[tumor$valid], prob = c(doutlier, 1 - doutlier),
+        domain <- quantile(tumor$gc_bias[tumor$valid], probs = c(doutlier, 1 - doutlier),
             na.rm = TRUE)
 
         tumor$ideal[!tumor$valid |
@@ -243,7 +243,7 @@ output.qc.file = NULL) {
         if (!any(tumor$ideal)) next
 
         if (!on.target) {
-            widthR <- quantile(width(tumor[tumor$ideal]), prob = 0.1)
+            widthR <- quantile(width(tumor[tumor$ideal]), probs = 0.1)
             tumor$ideal[width(tumor) < widthR] <- FALSE
         }
         rough <- loess(tumor$average.coverage[tumor$ideal] ~ tumor$gc_bias[tumor$ideal],
