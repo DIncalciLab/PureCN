@@ -252,7 +252,7 @@ ss) {
     abline(v= peak.ideal.means, lty = 3, lwd = 2, col = "darkgrey")
     axis(side = 3, at = peak.ideal.means,
         labels=names(peak.ideal.means), tick = FALSE, padj = 1)
-    par(par.mar)
+    par(mar = par.mar)
 }
 
 .plotTypeBAF <- function(res, id, chr, alpha, max.mapping.bias,
